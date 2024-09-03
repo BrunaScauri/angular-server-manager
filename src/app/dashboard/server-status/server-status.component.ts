@@ -9,9 +9,10 @@ import { Component } from '@angular/core';
 })
 export class ServerStatusComponent {
   currentStatus: 'online' | 'offline' | 'unknown' = 'online'
+  private interval?: ReturnType<typeof setInterval>
 
   ngOnInit() {
-    setInterval(() => {
+    this.interval = setInterval(() => {
       const rnd = Math.random()
       if(rnd < 0.5) {
         this.currentStatus = 'online'
@@ -21,5 +22,9 @@ export class ServerStatusComponent {
         this.currentStatus = 'unknown'
       }
     }, 5000)
+  }
+
+  ngOnDestroy() {
+    clearTimeout(this.interval);
   }
 }
